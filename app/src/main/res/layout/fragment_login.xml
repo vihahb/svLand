@@ -1,0 +1,96 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bga">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:layout_marginTop="@dimen/dp50"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:text=""
+                android:textColor="@color/colorText"
+                android:textSize="@dimen/sp24" />
+
+
+            <ImageView
+                android:layout_width="260dp"
+                android:layout_height="110dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/dp15"
+                android:background="@mipmap/senvietland" />
+
+            <TextView
+                android:id="@+id/titleStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/red"
+                android:textSize="@dimen/sp14" />
+
+            <EditText
+                android:id="@+id/editUsername"
+                android:paddingLeft="@dimen/dp16"
+                android:paddingRight="@dimen/dp16"
+                android:layout_marginLeft="@dimen/dp48"
+                android:layout_marginRight="@dimen/dp48"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dp8"
+                android:background="@android:drawable/editbox_dropdown_light_frame"
+                android:gravity="center"
+                android:hint="Username"
+                android:singleLine="true"
+                android:textSize="@dimen/sp15" />
+
+
+            <EditText
+                android:id="@+id/editPassword"
+                android:paddingLeft="@dimen/dp16"
+                android:paddingRight="@dimen/dp16"
+                android:layout_marginLeft="@dimen/dp48"
+                android:layout_marginRight="@dimen/dp48"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dp8"
+                android:background="@android:drawable/editbox_dropdown_light_frame"
+                android:gravity="center"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:singleLine="true"
+                android:textSize="@dimen/sp15" />
+
+
+            <TextView
+                android:id="@+id/actionLogin"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dp50"
+                android:background="@drawable/bg_login"
+                android:gravity="center"
+                android:text="Login"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp15"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>
