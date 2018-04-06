@@ -234,6 +234,7 @@ public class DetailContactFragment extends BaseFragment implements DetailContrac
     }
 
     private void performCallContact() {
+        presenter.postCallAction(account.getData().getUser_id(), contact.getMsisdn());
         if (contact != null) {
             Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + contact.getMsisdn()));
             startActivity(intent);

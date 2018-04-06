@@ -4,17 +4,13 @@ package com.goldit.managerinfo.fragment.home;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.load.Key;
 import com.goldit.managerinfo.R;
 import com.goldit.managerinfo.coreapi.BaseFragment;
 import com.goldit.managerinfo.coreapi.utils.FragmentUtil;
@@ -48,6 +44,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Hom
     TextView actionSelectProject;
     @BindView(R.id.actionRefesh)
     ImageView actionRefesh;
+
     public static HomeFragment getInstance() {
         if (fragment == null) {
             fragment = new HomeFragment();
@@ -69,10 +66,11 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Hom
             @Override
             public void onClick(View view) {
                 initPresenter();
-                Toast.makeText(getActivity(),"Danh sách đã được cập nhật",Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Danh sách đã được cập nhật", Toast.LENGTH_LONG).show();
             }
         });
     }
+
     private void initPresenter() {
         homePresenter = new HomePresenter();
         homePresenter.setView(this);
@@ -159,6 +157,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Hom
 
     @Override
     public void onClick(Contact.User contact, int position) {
+        homePresenter.callClickcusAction(account.getData().getUser_id(), contact.getMsisdn());
         Bundle bundle = new Bundle();
         bundle.putParcelable("Contact", contact);
         if (account != null) {

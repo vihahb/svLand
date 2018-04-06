@@ -28,5 +28,7 @@ public interface DetailContract {
         void updateContact(Contact.User user, String id, String token);
 
         void setStatus(String status, String stringStatus);
+
+        void postCallAction(int id, String msisdn);
     }
 }

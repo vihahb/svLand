@@ -1,9 +1,16 @@
 package com.goldit.managerinfo.fragment.detail;
 
+import android.util.Log;
+
+import com.goldit.managerinfo.BaseApplication;
+import com.goldit.managerinfo.fragment.model.Action;
 import com.goldit.managerinfo.fragment.model.Contact;
 import com.goldit.managerinfo.fragment.model.Update;
 import com.goldit.managerinfo.main.MainInterator;
 import com.goldit.managerinfo.main.MainInteratorImpl;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -73,5 +80,30 @@ public class DetailPresenter implements DetailContract.Presenter {
     @Override
     public void setStatus(String status, String stringStatus) {
         view.updateStatusUserUpdate(status, stringStatus);
+    }
+
+    @Override
+    public void postCallAction(int id, String msisdn) {
+        view.loading();
+        Action action = new Action(id, msisdn);
+        JsonObject callObject = new JsonObject();
+        callObject.addProperty("id", action.getId());
+        callObject.addProperty("msisdn", action.getMsisdn());
+
+        String jsonObject = callObject.toString();
+        String urlCall = "http://app.1datagate.com/api/call";
+        Ion.with(BaseApplication.CONTEXT)
+                .load(urlCall)
+                .setMultipartParameter("id", String.valueOf(action.getId()))
+                .setMultipartParameter("msisdn", action.getMsisdn())
+//                .setJsonObjectBody(callObject)
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>() {
+                    @Override
+                    public void onCompleted(Exception e, JsonObject result) {
+                        // do stuff with the result or error
+                        Log.e("postCallAction", "onCompleted: " + result.toString());
+                    }
+                });
     }
 }
