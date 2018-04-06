@@ -1,189 +1,223 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
-    <LinearLayout
-        android:layout_marginBottom="@dimen/dp16"
+    android:orientation="vertical">
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#fff"
-        android:clickable="true"
-        android:orientation="vertical"
-        tools:context="com.goldit.managerinfo.fragment.detail.DetailContactFragment">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="#ff0000">
-
-            <ImageView
-                android:id="@+id/actionBackDetail"
-                android:paddingLeft="@dimen/dp4"
-                android:paddingRight="@dimen/dp4"
-                android:layout_width="24dp"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/dp5"
-                android:src="@drawable/icon_back" />
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@+id/actionBackDetail"
-                android:paddingLeft="@dimen/dp10"
-                android:text="Thông tin chi tiết"
-                android:textColor="#fff" />
-
-            <TextView
-                android:id="@+id/actionUpdateContact"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/dp16"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical"
-                android:padding="@dimen/dp5"
-                android:paddingLeft="@dimen/dp10"
-                android:text="Cập nhật"
-                android:textColor="#fff"
-                android:textStyle="bold" />
-
-        </RelativeLayout>
+        android:layout_height="0dp"
+        android:fillViewport="true">
 
         <LinearLayout
-            android:layout_marginBottom="@dimen/dp16"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp16"
+            android:background="#fff"
+            android:clickable="true"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/dp16"
-            android:paddingRight="@dimen/dp16">
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp5">
-                <EditText
-                    android:id="@+id/editTelContactDetail"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:enabled="false"
-                    android:hint="Số điện thoại"
-                    android:textSize="@dimen/sp13" />
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp5">
-                <EditText
-                    android:id="@+id/editEmailContactDetail"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="Email"
-                    android:textColor="#333"
-                    android:textSize="@dimen/sp13" />
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp5">
-                <EditText
-                    android:id="@+id/editFullNameContactDetail"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="Họ tên"
-                    android:textColor="#333"
-                    android:textSize="@dimen/sp13" />
-            </android.support.design.widget.TextInputLayout>
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Trạng thái:"
-                android:textSize="@dimen/sp13" />
+            tools:context="com.goldit.managerinfo.fragment.detail.DetailContactFragment">
 
             <RelativeLayout
-                android:id="@+id/actionStatusContact"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_marginBottom="@dimen/dp5"
-                android:layout_marginTop="@dimen/dp5"
-                android:background="@drawable/bg_edittext">
-
-                <TextView
-                    android:id="@+id/statusDetailContact"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="@dimen/dp16"
-                    android:ellipsize="end"
-                    android:lines="1"
-                    android:text=""
-                    android:textColor="#333" />
+                android:layout_height="50dp"
+                android:background="#ff0000">
 
                 <ImageView
-                    android:layout_width="10dp"
+                    android:id="@+id/actionBackDetail"
+                    android:layout_width="24dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp5"
+                    android:paddingLeft="@dimen/dp4"
+                    android:paddingRight="@dimen/dp4"
+                    android:src="@drawable/icon_back" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/actionBackDetail"
+                    android:paddingLeft="@dimen/dp10"
+                    android:text="Thông tin chi tiết"
+                    android:textColor="#fff" />
+
+                <TextView
+                    android:id="@+id/actionUpdateContact"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginRight="@dimen/dp16"
-                    android:src="@drawable/drop_down" />
+                    android:padding="@dimen/dp5"
+                    android:paddingLeft="@dimen/dp10"
+                    android:text="Cập nhật"
+                    android:textColor="#fff"
+                    android:textStyle="bold" />
 
             </RelativeLayout>
 
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ghi chú:"
-                android:textSize="@dimen/sp13" />
-
-            <EditText
-                android:id="@+id/noteContactDetail"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginTop="@dimen/dp10"
-                android:background="#e7e5e5"
-                android:gravity="left"
-                android:padding="@dimen/dp5"
-                android:text=""
-                android:textSize="@dimen/sp13" />
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/dp16"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/dp16"
+                android:paddingRight="@dimen/dp16">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp5">
+
+                    <EditText
+                        android:id="@+id/editTelContactDetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:enabled="false"
+                        android:hint="Số điện thoại"
+                        android:textSize="@dimen/sp13" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp5">
+
+                    <EditText
+                        android:id="@+id/editEmailContactDetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Email"
+                        android:textColor="#333"
+                        android:textSize="@dimen/sp13" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp5">
+
+                    <EditText
+                        android:id="@+id/editFullNameContactDetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Họ tên"
+                        android:textColor="#333"
+                        android:textSize="@dimen/sp13" />
+                </android.support.design.widget.TextInputLayout>
 
 
-            <TextView
-                android:id="@+id/actionCallContactDetail"
-                android:layout_marginLeft="@dimen/dp48"
-                android:layout_marginRight="@dimen/dp48"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/dp15"
-                android:background="@drawable/bg_call"
-                android:gravity="center"
-                android:text="GỌI NGAY"
-                android:textColor="#fff" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Trạng thái:"
+                    android:textSize="@dimen/sp13" />
 
-            <TextView
-                android:id="@+id/actionSendMailContactDetail"
-                android:layout_marginLeft="@dimen/dp48"
-                android:layout_marginRight="@dimen/dp48"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/dp15"
-                android:background="@drawable/bg_send_email"
-                android:gravity="center"
-                android:text="GỬI EMAIL"
-                android:textColor="#fff" />
+                <RelativeLayout
+                    android:id="@+id/actionStatusContact"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_marginBottom="@dimen/dp5"
+                    android:layout_marginTop="@dimen/dp5"
+                    android:background="@drawable/bg_edittext">
+
+                    <TextView
+                        android:id="@+id/statusDetailContact"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:lines="1"
+                        android:paddingLeft="@dimen/dp16"
+                        android:text=""
+                        android:textColor="#333" />
+
+                    <ImageView
+                        android:layout_width="10dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/dp16"
+                        android:src="@drawable/drop_down" />
+
+                </RelativeLayout>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ghi chú:"
+                    android:textSize="@dimen/sp13" />
+
+                <EditText
+                    android:id="@+id/noteContactDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:background="#e7e5e5"
+                    android:gravity="left"
+                    android:padding="@dimen/dp5"
+                    android:text=""
+                    android:textSize="@dimen/sp13" />
+
+
+                <TextView
+                    android:id="@+id/actionCallContactDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="@dimen/dp48"
+                    android:layout_marginRight="@dimen/dp48"
+                    android:layout_marginTop="@dimen/dp15"
+                    android:background="@drawable/bg_call"
+                    android:gravity="center"
+                    android:text="GỌI NGAY"
+                    android:textColor="#fff" />
+
+                <TextView
+                    android:id="@+id/actionSendMailContactDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="@dimen/dp48"
+                    android:layout_marginRight="@dimen/dp48"
+                    android:layout_marginTop="@dimen/dp15"
+                    android:background="@drawable/bg_send_email"
+                    android:gravity="center"
+                    android:text="GỬI EMAIL"
+                    android:textColor="#fff" />
+
+            </LinearLayout>
 
         </LinearLayout>
+    </ScrollView>
 
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:background="@color/colorPrimary"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@android:color/white"
+        app:tabIndicatorHeight="2dp"
+        app:tabMaxWidth="0dp"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@android:color/white">
 
-    </LinearLayout>
-</ScrollView>
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Info" />
+
+        <android.support.design.widget.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Note" />
+    </android.support.design.widget.TabLayout>
+</LinearLayout>
 
