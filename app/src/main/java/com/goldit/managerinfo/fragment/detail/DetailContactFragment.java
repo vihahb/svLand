@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +56,14 @@ public class DetailContactFragment extends BaseFragment implements DetailContrac
     EditText noteContactDetail;
     @BindView(R.id.statusDetailContact)
     TextView statusDetailContact;
+
+    @BindView(R.id.tabLayout)
+    TabLayout tabLayout;
+    @BindView(R.id.layout_1)
+    LinearLayout layout_1;
+    @BindView(R.id.layout_2)
+    LinearLayout layout_2;
+
     Account account;
     Contact.User contact;
     public static DetailPresenter presenter;
@@ -70,7 +80,22 @@ public class DetailContactFragment extends BaseFragment implements DetailContrac
     protected void initView() {
         initDialogLoading();
         initPresenter();
+        initTabLayout();
+    }
 
+    private void initTabLayout() {
+        tabLayout.addTab(tabLayout.newTab().setText("Thông tin"), 0);
+        tabLayout.addTab(tabLayout.newTab().setText("Ghi chú"), 1);
+        switch (tabLayout.getSelectedTabPosition()) {
+            case 0:
+                layout_1.setVisibility(View.VISIBLE);
+                layout_2.setVisibility(View.GONE);
+                break;
+            case 1:
+                layout_1.setVisibility(View.GONE);
+                layout_2.setVisibility(View.VISIBLE);
+                break;
+        }
     }
 
     private void initPresenter() {
