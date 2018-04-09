@@ -1,6 +1,10 @@
 package com.goldit.managerinfo.fragment.home;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -52,6 +56,12 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Hom
         return fragment;
     }
 
+    private BroadcastReceiver reload_receive = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            initPresenter();
+        }
+    };
 
     @Override
     protected int getLayoutId() {
@@ -69,6 +79,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Hom
                 Toast.makeText(getActivity(), "Danh sách đã được cập nhật", Toast.LENGTH_LONG).show();
             }
         });
+        getActivity().registerReceiver(reload_receive, new IntentFilter("RELOAD_DATA"));
     }
 
     private void initPresenter() {
@@ -182,5 +193,11 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Hom
     public void onResume() {
         super.onResume();
         initPresenter();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(reload_receive);
     }
 }

@@ -4,6 +4,7 @@ package com.goldit.managerinfo.fragment.detail;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -75,6 +76,7 @@ public class DetailContactFragment extends BaseFragment implements DetailContrac
         return R.layout.fragment_detail_contact;
     }
 
+//    getActivity().registerReceiver(reload_receive, new IntentFilter("RELOAD_DATA"));
 
     @Override
     protected void initView() {
@@ -86,16 +88,31 @@ public class DetailContactFragment extends BaseFragment implements DetailContrac
     private void initTabLayout() {
         tabLayout.addTab(tabLayout.newTab().setText("Thông tin"), 0);
         tabLayout.addTab(tabLayout.newTab().setText("Ghi chú"), 1);
-        switch (tabLayout.getSelectedTabPosition()) {
-            case 0:
-                layout_1.setVisibility(View.VISIBLE);
-                layout_2.setVisibility(View.GONE);
-                break;
-            case 1:
-                layout_1.setVisibility(View.GONE);
-                layout_2.setVisibility(View.VISIBLE);
-                break;
-        }
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (tab.getPosition()) {
+                    case 0:
+                        layout_1.setVisibility(View.VISIBLE);
+                        layout_2.setVisibility(View.GONE);
+                        break;
+                    case 1:
+                        layout_1.setVisibility(View.GONE);
+                        layout_2.setVisibility(View.VISIBLE);
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     private void initPresenter() {
@@ -244,6 +261,8 @@ public class DetailContactFragment extends BaseFragment implements DetailContrac
                                 presenter.updateContact(user, account.getData().getUser_id() + "", account.getData().getToken());
                                 Toast.makeText(getActivity(), "Thông tin đã được cập nhật", Toast.LENGTH_SHORT).show();
                                 FragmentUtil.popBackStack(getActivity());
+                                Intent intent = new Intent("RELOAD_DATA");
+                                getActivity().sendBroadcast(intent);
                             }
                         })
                         .setNegativeButton("Quay lại", new DialogInterface.OnClickListener() {
