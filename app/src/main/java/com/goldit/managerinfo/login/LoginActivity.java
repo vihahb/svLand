@@ -2,7 +2,10 @@ package com.goldit.managerinfo.login;
 
 
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -10,6 +13,7 @@ import android.widget.TextView;
 import com.goldit.managerinfo.R;
 import com.goldit.managerinfo.coreapi.BaseActivity;
 import com.goldit.managerinfo.coreapi.utils.KeyboardUtil;
+import com.goldit.managerinfo.coreapi.utils.ToastUtil;
 import com.goldit.managerinfo.fragment.model.Account;
 import com.goldit.managerinfo.main.MainActivity;
 import com.syd.oden.circleprogressdialog.core.CircleProgressDialog;
@@ -47,6 +51,17 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
         KeyboardUtil.requestKeyboard(editUsername);
         initDialogLoading();
         initPresenter();
+        checkOverlayApp();
+    }
+
+    private void checkOverlayApp() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.canDrawOverlays(this)) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                        Uri.parse("package:" + getPackageName()));
+                startActivityForResult(intent, 101);
+            }
+        }
     }
 
     @OnClick(R.id.actionLogin)
@@ -121,5 +136,20 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     public void onDestroy() {
         super.onDestroy();
         isActive = false;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 101){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (!Settings.canDrawOverlays(LoginActivity.this)) {
+                    ToastUtil.ShortShow(LoginActivity.this, "Không thể thực hiện do bạn chưa cấp quyền hiển thị trên ứng dụng khác!");
+                    finish();
+                } else {
+                    ToastUtil.ShortShow(LoginActivity.this, "Done!");
+                }
+            }
+        }
     }
 }

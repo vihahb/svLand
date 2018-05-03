@@ -1,11 +1,18 @@
 package com.goldit.managerinfo.coreapi;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 
 import com.goldit.managerinfo.coreapi.utils.RxBus;
+import com.goldit.managerinfo.coreapi.utils.ToastUtil;
 
 import butterknife.ButterKnife;
 import rx.Subscription;
@@ -14,7 +21,7 @@ import rx.functions.Action1;
 import rx.subscriptions.CompositeSubscription;
 
 
-public abstract class BaseActivity extends ActionBarActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     boolean layout = true;
     private CompositeSubscription mSubscriptions;
@@ -77,7 +84,5 @@ public abstract class BaseActivity extends ActionBarActivity {
 
 
     //-----------------------------------------------------
-
-
 
 }

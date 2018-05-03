@@ -24,15 +24,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.goldit.managerinfo.BaseApplication;
 import com.goldit.managerinfo.R;
 import com.goldit.managerinfo.coreapi.BaseFragment;
 import com.goldit.managerinfo.coreapi.utils.FragmentUtil;
 import com.goldit.managerinfo.coreapi.utils.KeyboardUtil;
+import com.goldit.managerinfo.coreapi.utils.SharedPrefUtils;
 import com.goldit.managerinfo.coreapi.utils.ToastUtil;
 import com.goldit.managerinfo.fragment.model.Account;
 import com.goldit.managerinfo.fragment.model.Contact;
 import com.goldit.managerinfo.fragment.model.Update;
+import com.goldit.managerinfo.window.PermissionHelper;
 import com.syd.oden.circleprogressdialog.core.CircleProgressDialog;
+
+import java.security.Permission;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -70,6 +75,8 @@ public class DetailContactFragment extends BaseFragment implements DetailContrac
     public static DetailPresenter presenter;
     CircleProgressDialog circleProgressDialog;
     private int MY_PERMISSIONS_REQUEST_CALL_CONTACTS = 91;
+    private int MY_PERMISSIONS_REQUEST_READ_PHONE_STATE = 92;
+    private String[] permission_list = {Manifest.permission.CALL_PHONE, Manifest.permission.READ_PHONE_STATE};
 
     @Override
     protected int getLayoutId() {
@@ -187,10 +194,8 @@ public class DetailContactFragment extends BaseFragment implements DetailContrac
                 KeyboardUtil.hideSoftKeyboard(getActivity());
                 break;
             case R.id.actionCallContactDetail:
-                if (checkPermission()) {
+                if (PermissionHelper.checkListPermission(permission_list, getActivity(), MY_PERMISSIONS_REQUEST_CALL_CONTACTS)) {
                     performCallContact();
-                } else {
-                    ToastUtil.ShortShow(getActivity(), "Không thể thực hiện do bạn chưa cấp quyền!");
                 }
                 KeyboardUtil.hideSoftKeyboard(getActivity());
                 break;
@@ -210,34 +215,60 @@ public class DetailContactFragment extends BaseFragment implements DetailContrac
         }
     }
 
-    private boolean checkPermission() {
-        if (ContextCompat.checkSelfPermission(getActivity(),
-                Manifest.permission.CALL_PHONE)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                    Manifest.permission.CALL_PHONE)) {
-
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-            } else {
-
-                // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(getActivity(),
-                        new String[]{Manifest.permission.CALL_PHONE},
-                        MY_PERMISSIONS_REQUEST_CALL_CONTACTS);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-            }
-            return false;
-        } else {
-            return true;
-        }
-    }
+//    private boolean checkPermission() {
+//
+//
+//
+//        if (ContextCompat.checkSelfPermission(getActivity(),
+//                Manifest.permission.CALL_PHONE)
+//                != PackageManager.PERMISSION_GRANTED) {
+//
+//            // Should we show an explanation?
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+//                    Manifest.permission.CALL_PHONE)) {
+//
+//                // Show an explanation to the user *asynchronously* -- don't block
+//                // this thread waiting for the user's response! After the user
+//                // sees the explanation, try again to request the permission.
+//            } else {
+//
+//                // No explanation needed, we can request the permission.
+//                ActivityCompat.requestPermissions(getActivity(),
+//                        new String[]{Manifest.permission.CALL_PHONE},
+//                        MY_PERMISSIONS_REQUEST_CALL_CONTACTS);
+//
+//                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+//                // app-defined int constant. The callback method gets the
+//                // result of the request.
+//            }
+//            return false;
+//        } else if (ContextCompat.checkSelfPermission(getActivity(),
+//                Manifest.permission.READ_PHONE_STATE)
+//                != PackageManager.PERMISSION_GRANTED) {
+//
+//            // Should we show an explanation?
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+//                    Manifest.permission.READ_PHONE_STATE)) {
+//
+//                // Show an explanation to the user *asynchronously* -- don't block
+//                // this thread waiting for the user's response! After the user
+//                // sees the explanation, try again to request the permission.
+//            } else {
+//
+//                // No explanation needed, we can request the permission.
+//                ActivityCompat.requestPermissions(getActivity(),
+//                        new String[]{Manifest.permission.READ_PHONE_STATE},
+//                        MY_PERMISSIONS_REQUEST_READ_PHONE_STATE);
+//
+//                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+//                // app-defined int constant. The callback method gets the
+//                // result of the request.
+//            }
+//            return false;
+//        } else {
+//            return true;
+//        }
+//    }
 
     private void performUpdateContact() {
         final Contact.User user = new Contact.User();
@@ -280,6 +311,7 @@ public class DetailContactFragment extends BaseFragment implements DetailContrac
     private void performCallContact() {
         presenter.postCallAction(account.getData().getUser_id(), contact.getMsisdn());
         if (contact != null) {
+            SharedPrefUtils.putBoolean("OUTGOINGCALL", true);
             Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + contact.getMsisdn()));
             startActivity(intent);
         }
@@ -397,18 +429,11 @@ public class DetailContactFragment extends BaseFragment implements DetailContrac
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == MY_PERMISSIONS_REQUEST_CALL_CONTACTS) {
-            if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                // permission was granted, yay! Do the
-                // contacts-related task you need to do.
+            if (PermissionHelper.checkResult(grantResults)) {
                 performCallContact();
             } else {
                 ToastUtil.ShortShow(getActivity(), "Không thể thực hiện do bạn chưa cấp quyền!");
-                // permission denied, boo! Disable the
-                // functionality that depends on this permission.
             }
-            return;
         }
     }
 }

@@ -1,13 +1,21 @@
 package com.goldit.managerinfo.fragment.home;
 
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -18,6 +26,7 @@ import android.widget.Toast;
 import com.goldit.managerinfo.R;
 import com.goldit.managerinfo.coreapi.BaseFragment;
 import com.goldit.managerinfo.coreapi.utils.FragmentUtil;
+import com.goldit.managerinfo.coreapi.utils.ToastUtil;
 import com.goldit.managerinfo.fragment.detail.DetailContactFragment;
 import com.goldit.managerinfo.fragment.model.Account;
 import com.goldit.managerinfo.fragment.model.Contact;
@@ -36,6 +45,7 @@ import static com.goldit.managerinfo.login.LoginActivity.isActive;
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends BaseFragment implements HomeContract.View, HomeAdapter.ItemClickListener {
+
 
     public static HomeFragment fragment;
     public static HomePresenter homePresenter;
@@ -80,7 +90,12 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Hom
             }
         });
         getActivity().registerReceiver(reload_receive, new IntentFilter("RELOAD_DATA"));
+
     }
+
+
+
+
 
     private void initPresenter() {
         homePresenter = new HomePresenter();
@@ -199,5 +214,9 @@ public class HomeFragment extends BaseFragment implements HomeContract.View, Hom
     public void onDestroy() {
         super.onDestroy();
         getActivity().unregisterReceiver(reload_receive);
+    }
+
+    private void finishApp() {
+        getActivity().finish();
     }
 }
