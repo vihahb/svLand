@@ -2,6 +2,8 @@ package com.goldit.managerinfo.fragment.detail;
 
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -35,6 +37,7 @@ import com.goldit.managerinfo.fragment.model.Account;
 import com.goldit.managerinfo.fragment.model.Contact;
 import com.goldit.managerinfo.fragment.model.Update;
 import com.goldit.managerinfo.window.PermissionHelper;
+import com.goldit.managerinfo.window.WindowManagers;
 import com.syd.oden.circleprogressdialog.core.CircleProgressDialog;
 
 import java.security.Permission;
@@ -49,6 +52,7 @@ import static com.goldit.managerinfo.login.LoginActivity.isActive;
  */
 public class DetailContactFragment extends BaseFragment implements DetailContract.View {
 
+    WindowManagers managers;
 
     @BindView(R.id.actionBackDetail)
     ImageView actionBackDetail;
@@ -83,6 +87,14 @@ public class DetailContactFragment extends BaseFragment implements DetailContrac
         return R.layout.fragment_detail_contact;
     }
 
+    private BroadcastReceiver endCall = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (managers.isShow())
+                managers.closeView();
+        }
+    };
+
 //    getActivity().registerReceiver(reload_receive, new IntentFilter("RELOAD_DATA"));
 
     @Override
@@ -90,6 +102,13 @@ public class DetailContactFragment extends BaseFragment implements DetailContrac
         initDialogLoading();
         initPresenter();
         initTabLayout();
+        registerReceive();
+        if (managers == null)
+            managers = new WindowManagers(getContext());
+    }
+
+    private void registerReceive() {
+        getContext().registerReceiver(endCall, new IntentFilter("END_CALL"));
     }
 
     private void initTabLayout() {
@@ -201,7 +220,7 @@ public class DetailContactFragment extends BaseFragment implements DetailContrac
                 break;
             case R.id.actionSendMailContactDetail:
                 KeyboardUtil.hideSoftKeyboard(getActivity());
-//                performSendMail();
+                performSendMail();
                 break;
             case R.id.actionStatusContact:
                 KeyboardUtil.hideSoftKeyboard(getActivity());
@@ -311,9 +330,11 @@ public class DetailContactFragment extends BaseFragment implements DetailContrac
     private void performCallContact() {
         presenter.postCallAction(account.getData().getUser_id(), contact.getMsisdn());
         if (contact != null) {
-            SharedPrefUtils.putBoolean("OUTGOINGCALL", true);
-            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + contact.getMsisdn()));
+//            SharedPrefUtils.putBoolean("OUTGOINGCALL", true);
+//            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + contact.getMsisdn()));
+            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:900" ));
             startActivity(intent);
+            managers.show();
         }
     }
 
@@ -420,9 +441,16 @@ public class DetailContactFragment extends BaseFragment implements DetailContrac
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        registerReceive();
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         KeyboardUtil.hideSoftKeyboard(getActivity());
+        getContext().unregisterReceiver(endCall);
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -19,26 +20,19 @@ public class PhoneStateBroadcastReceiver extends BroadcastReceiver {
     private int prev_state;
     private Context mContext;
 
-    WindowManagers managers;
+
 
     static PhoneStateListener phoneStateListener;
-    private boolean incomingCall = SharedPrefUtils.getBolean(BaseApplication.CONTEXT, "OUTGOINGCALL");
+//    private boolean incomingCall = SharedPrefUtils.getBolean(BaseApplication.CONTEXT, "OUTGOINGCALL");
 
+    @SuppressLint("UnsafeProtectedBroadcastReceiver")
     @Override
     public void onReceive(Context context, Intent intent) {
         // TODO: This method is called when the BroadcastReceiver is receiving
         // an Intent broadcast.
-        if (managers == null)
-            managers = new WindowManagers(context);
         TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        try {
-            if (phoneStateListener == null) {
-                phoneStateListener = new PhoneStateListener();
-                telephonyManager.listen(phoneStateListener, android.telephony.PhoneStateListener.LISTEN_CALL_STATE); //Register our listener with TelephonyManager
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "onReceive: " + e.toString());
-        }
+        phoneStateListener = new PhoneStateListener();
+        telephonyManager.listen(phoneStateListener, android.telephony.PhoneStateListener.LISTEN_CALL_STATE); //Register our listener with TelephonyManager
         Bundle bundle = intent.getExtras();
         String phoneNr = null;
         if (bundle != null) {
@@ -73,8 +67,8 @@ public class PhoneStateBroadcastReceiver extends BroadcastReceiver {
                 case TelephonyManager.CALL_STATE_OFFHOOK:
                     Log.e(TAG, "CALL_STATE_OFFHOOK");
                     prev_state = state;
-                    if (incomingCall)
-                        managers.show();
+//                    if (incomingCall)
+
                     break;
 
                 case TelephonyManager.CALL_STATE_IDLE:
@@ -83,8 +77,7 @@ public class PhoneStateBroadcastReceiver extends BroadcastReceiver {
 
                     if ((prev_state == TelephonyManager.CALL_STATE_OFFHOOK)) {
                         prev_state = state;
-                        if (managers.isShow())
-                            managers.closeView();
+                        mContext.sendBroadcast(new Intent("END_CALL"));
                         //Delete last call
                         deleteLastCall();
                     }

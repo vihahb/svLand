@@ -38,11 +38,11 @@ public class WindowManagers {
         mParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
         mParams.gravity = Gravity.CENTER;
         mParams.format = PixelFormat.TRANSLUCENT;//trong suot
-        mParams.type = WindowManager.LayoutParams.TYPE_PHONE;// noi tren all be mat
+        mParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;// noi tren all be mat
         mParams.flags = WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;// khong bi gioi han boi man hinh|Su duoc nut home
 
 
-        BlurDrawable blurDrawable = new BlurDrawable(view_background_blur, 20);
+        BlurDrawable blurDrawable = new BlurDrawable(view_background_blur, 2);
         view_blur.setBackground(blurDrawable);
 
         TextView tv_close = subView.findViewById(R.id.tv_close);
